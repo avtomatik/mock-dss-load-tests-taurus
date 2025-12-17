@@ -1,0 +1,23 @@
+execution:
+  - executor: molotov
+    scenario: backend-load
+    concurrency: 50
+    ramp-up: 1m
+    hold-for: 5m
+
+scenarios:
+  backend-load:
+    script: molotov_scenario.py
+    setup-method: setup
+    teardown-method: teardown
+    function: scenario
+
+reporting:
+  - module: console
+  - module: final-stats
+  - module: junit-xml
+    filename: results.xml
+
+settings:
+  artifacts-dir: artifacts/%Y-%m-%d_%H-%M-%S
+  check-interval: 1s
