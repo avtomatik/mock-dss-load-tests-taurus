@@ -4,16 +4,19 @@ from http import HTTPStatus
 from molotov import scenario
 
 from core.constants import _API, SIGN_RESPONSE_MODEL_FIELDS
+from core.decorators import debug_print_out
 from core.helpers import generate_document_payload
 
 
 @scenario(weight=25)
+@debug_print_out
 async def get_index_page(session):
     async with session.get(_API) as response:
         assert response.status == HTTPStatus.OK
 
 
 @scenario(weight=25)
+@debug_print_out
 async def post_sign(session):
 
     payload = generate_document_payload()
@@ -31,6 +34,7 @@ async def post_sign(session):
 
 
 @scenario(weight=25)
+@debug_print_out
 async def get_sign_ping(session):
     async with session.get(f"{_API}/api/sign/ping") as response:
         data = await response.json()
@@ -39,6 +43,7 @@ async def get_sign_ping(session):
 
 
 @scenario(weight=25)
+@debug_print_out
 async def get_cache_test(session):
     async with session.get(f"{_API}/api/cache/cache-test") as response:
         data = await response.json()
