@@ -1,3 +1,11 @@
+SIGN_RESPONSE_MODEL_FIELDS = [
+    "signature_id",
+    "document_id",
+    "signed_at",
+    "signature_value",
+]
+
+
 _API = "http://localhost:8000"
 
 

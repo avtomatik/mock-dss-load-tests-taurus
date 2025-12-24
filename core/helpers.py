@@ -16,3 +16,10 @@ def generate_random_id(length: int = 8) -> str:
     return "".join(
         random.choices(string.ascii_letters + string.digits, k=length)
     )
+
+
+def generate_document_payload() -> dict[str, str]:
+    return {
+        "document_id": generate_random_id(),
+        "payload": "Lorem ipsum dolor sit amet consectetuer",
+    }
