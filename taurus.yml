@@ -3,14 +3,13 @@ execution:
     scenario: backend-load
     concurrency: 50
     ramp-up: 1m
-    hold-for: 5m
+    hold-for: 10s
 
 scenarios:
   backend-load:
-    script: molotov_scenario.py
-    setup-method: setup
-    teardown-method: teardown
-    function: scenario
+    script: api_loadtest.py
+    extensions:
+      - db_loadtest.py
 
 reporting:
   - module: console

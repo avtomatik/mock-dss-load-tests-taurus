@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Molotov (console script)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/.venv/bin/molotov",
+      "args": [
+        "-d",
+        "5",
+        "api_loadtest.py",
+        "--use-extension",
+        "db_loadtest.py"
+      ],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}",
+        "DEBUG_MOLOTOV": "1"
+      },
+      "justMyCode": false,
+      "subProcess": true
+    }
+  ]
+}
