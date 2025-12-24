@@ -41,5 +41,6 @@ async def get_sign_ping(session):
 @scenario(weight=25)
 async def get_cache_test(session):
     async with session.get(f"{_API}/api/cache/cache-test") as response:
+        data = await response.json()
         assert response.status == HTTPStatus.OK
-        assert response["cached_value"] == "Hello, Redis!"
+        assert data["cached_value"] == "Hello, Redis!"
