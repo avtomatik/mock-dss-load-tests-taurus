@@ -2,8 +2,9 @@ execution:
   - executor: molotov
     scenario: backend-load
     concurrency: 50
-    ramp-up: 1m
-    hold-for: 10s
+    ramp-up: 10s
+    hold-for: 60s
+    processes: 10
 
 scenarios:
   backend-load:
