@@ -2,6 +2,7 @@ import hashlib
 import random
 import string
 from datetime import datetime
+from typing import Dict
 
 
 def generate_current_date_str() -> str:
@@ -18,7 +19,7 @@ def generate_random_id(length: int = 8) -> str:
     )
 
 
-def generate_document_payload() -> dict[str, str]:
+def generate_document_payload() -> Dict[str, str]:
     return {
         "document_id": generate_random_id(),
         "payload": "Lorem ipsum dolor sit amet consectetuer",

@@ -30,7 +30,7 @@ async def post_sign(session):
 
         assert data["document_id"] == payload["document_id"]
         assert "signature_value" in data
-        datetime.fromisoformat(data["signed_at"])
+        datetime.fromisoformat(data["signed_at"].replace("Z", "+00:00"))
 
 
 @scenario(weight=25)

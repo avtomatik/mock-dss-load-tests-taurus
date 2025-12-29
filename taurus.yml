@@ -3,7 +3,7 @@ execution:
     scenario: backend-load
     concurrency: 50
     ramp-up: 10s
-    hold-for: 60s
+    hold-for: 10s
     processes: 10
 
 scenarios:
@@ -21,3 +21,7 @@ reporting:
 settings:
   artifacts-dir: artifacts/%Y-%m-%d_%H-%M-%S
   check-interval: 1s
+
+modules:
+  console:
+    disable: true
