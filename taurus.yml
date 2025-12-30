@@ -4,7 +4,7 @@ execution:
     concurrency: 50
     ramp-up: 10s
     hold-for: 10s
-    processes: 10
+    processes: 1
 
 scenarios:
   backend-load:
