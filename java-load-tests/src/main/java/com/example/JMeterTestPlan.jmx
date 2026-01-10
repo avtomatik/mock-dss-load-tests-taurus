@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="API and DB Load Test Plan" enabled="true">
+  <stringProp name="TestPlan.comments"></stringProp>
+  <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+    <collectionProp name="Arguments.arguments"/>
+  </elementProp>
+  <boolProp name="TestPlan.functional_mode">false</boolProp>
+  <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+  <stringProp name="TestPlan.source_encoding">UTF-8</stringProp>
+  
+  <!-- Thread Group (Virtual Users) -->
+  <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="API Load Test Group" enabled="true">
+    <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+    <stringProp name="ThreadGroup.num_threads">5</stringProp> <!-- 5 Virtual Users -->
+    <stringProp name="ThreadGroup.ramp_time">10</stringProp> <!-- Ramp up time (seconds) -->
+    <stringProp name="ThreadGroup.loop_count">10</stringProp> <!-- Each thread repeats 10 times -->
+    
+    <!-- HTTP Request: GET / -->
+    <Sample guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Index Page" enabled="true">
+      <stringProp name="HTTPSampler.domain">localhost</stringProp>
+      <stringProp name="HTTPSampler.port">8000</stringProp>
+      <stringProp name="HTTPSampler.path">/</stringProp>
+      <stringProp name="HTTPSampler.method">GET</stringProp>
+      <stringProp name="HTTPSampler.connect_timeout">5000</stringProp>
+      <stringProp name="HTTPSampler.response_timeout">5000</stringProp>
+    </Sample>
+
+    <!-- HTTP Request: POST /api/sign -->
+    <Sample guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Sign Document" enabled="true">
+      <stringProp name="HTTPSampler.domain">localhost</stringProp>
+      <stringProp name="HTTPSampler.port">8000</stringProp>
+      <stringProp name="HTTPSampler.path">/api/sign</stringProp>
+      <stringProp name="HTTPSampler.method">POST</stringProp>
+      <stringProp name="HTTPSampler.connect_timeout">5000</stringProp>
+      <stringProp name="HTTPSampler.response_timeout">5000</stringProp>
+      
+      <!-- JSON Payload for POST request -->
+      <stringProp name="HTTPSampler.postBodyRaw">true</stringProp>
+      <stringProp name="HTTPSampler.body_data">{
+        "document_id": "12345678",
+        "payload": "Lorem ipsum dolor sit amet."
+      }</stringProp>
+    </Sample>
+    
+    <!-- JDBC Request: Query PostgreSQL Database -->
+    <Sample guiclass="JDBCTestSamplerGui" testclass="JDBCSampler" testname="Count Signatures in DB" enabled="true">
+      <stringProp name="dataSource">jdbc/PostgreSQL</stringProp>
+      <stringProp name="query">SELECT count(*) FROM signatures WHERE DATE(signed_at) = ?;</stringProp>
+      <stringProp name="parameters">2023-01-10</stringProp>
+    </Sample>
+    
+    <!-- Assertions to check the correctness of responses -->
+    <!-- Assertion for GET / -->
+    <Assertions>
+      <Assertion guiclass="ResponseAssertionGui" testclass="ResponseAssertion" testname="Check GET / Status 200" enabled="true">
+        <stringProp name="ResponseAssertion.test_field">Assertion.response_code</stringProp>
+        <stringProp name="ResponseAssertion.matcher_type">1</stringProp>
+        <stringProp name="ResponseAssertion.expected_value">200</stringProp>
+      </Assertion>
+    </Assertions>
+    <!-- Assertion for POST /api/sign -->
+    <Assertions>
+      <Assertion guiclass="ResponseAssertionGui" testclass="ResponseAssertion" testname="Check POST /api/sign Status 200" enabled="true">
+        <stringProp name="ResponseAssertion.test_field">Assertion.response_code</stringProp>
+        <stringProp name="ResponseAssertion.matcher_type">1</stringProp>
+        <stringProp name="ResponseAssertion.expected_value">200</stringProp>
+      </Assertion>
+    </Assertions>
+  </ThreadGroup>
+
+
+  <!-- Listeners to generate results -->
+  <ResultCollector guiclass="GraphPanel" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+    <stringProp name="filename"></stringProp>
+  </ResultCollector>
+  <ResultCollector guiclass="GraphPanel" testclass="ResultCollector" testname="View Results in Graph" enabled="true">
+    <stringProp name="filename"></stringProp>
+  </ResultCollector>
+</TestPlan>
